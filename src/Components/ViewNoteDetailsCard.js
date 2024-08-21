@@ -8,7 +8,7 @@ const ViewNoteDetailsCard = ({ title, createdDate, details }) => {
       sx={{ 
         position: 'absolute',
         right: 0,
-        top: '60px',  
+        top: '60px', 
         height: '600px',
         width: '1000px',  
         padding: '16px',  

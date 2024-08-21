@@ -44,8 +44,6 @@ export default function NoteCard() {
   const [data, setData] = React.useState()
   const [isDetailCardShow, setIsDetailCardShow] = React.useState(false)
 
-
-
   const handleCardClick = (card) => {
     console.log("Card Details:", card);
     setData(card);
@@ -54,12 +52,12 @@ export default function NoteCard() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {cardData.map((card, index) => (
-            <Card key={index} sx={{ minWidth: 350 }}>
+            <Card key={index} sx={{ minWidth: 350 ,border: '1px solid rgba(0, 0, 0, 0.2)'}}>
               <CardContent>
                 <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
                   {card.title}
                 </Typography>
-                <Typography variant="h7" component="div">
+                <Typography variant="subtitle1" component="div">
                   {card.createdDate}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
