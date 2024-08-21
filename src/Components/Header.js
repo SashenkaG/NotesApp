@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton';
 
 export default function Header() {
     return (
@@ -15,11 +16,13 @@ export default function Header() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center', 
-          gap: 1, 
+          gap: 12, 
         }}
       >
         <Typography variant="h4">Notes</Typography>
-        <AddIcon sx={{ fontSize: 40 }} /> 
+        <IconButton>
+        <AddIcon sx={{ fontSize: 40 }} />
+      </IconButton> 
       </Box>
     );
   }

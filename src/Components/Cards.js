@@ -5,6 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import ViewNoteDetailsCard from './ViewNoteDetailsCard';
 
   <Box
     component="span"
@@ -22,45 +23,57 @@ import Typography from '@mui/material/Typography';
     •
   </Box>
 
-
 const cardData = [
     {
       title: 'Current Note',
-      createdDate : new Date(),
-      details: 'Today I ate a sandwitch',
+      createdDate : "Date",
+      details: 'Some notes are written here',
     },
     {
       title: 'Another Note',
-      createdDate : new Date(),
-      details: 'able to withstand or recover quickly from difficult conditions. "a resilient person"',
+      createdDate :"Date",
+      details: 'Different notes are written here',
     },
     {
       title: 'Another Note',
-      createdDate : new Date(),
-      details: 'diligent and hardworking. "an industrious student"',
+      createdDate : "Date",
+      details: 'More notes are written here',
     },
   ];
-export default function BasicCard({ title, createdDate, details, handleButtonClick }) {
+export default function NoteCard() {
+  const [data, setData] = React.useState()
+  const [isDetailCardShow, setIsDetailCardShow] = React.useState(false)
+
+
+
+  const handleCardClick = (card) => {
+    console.log("Card Details:", card);
+    setData(card);
+    setIsDetailCardShow(true);
+  };
+// console.log(data)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {cardData.map((card, index) => (
             <Card key={index} sx={{ minWidth: 350 }}>
               <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
                   {card.title}
                 </Typography>
-                <Typography variant="h5" component="div">
-                  {cardData.createdDate}
+                <Typography variant="h7" component="div">
+                  {card.createdDate}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  {cardData.details}
+                  {card.details}
                 </Typography>
               </CardContent>
               <CardActions>
-              <Button size="small" onClick={handleButtonClick}>View</Button>
+              <Button size="small" onClick= {()=>handleCardClick(card)}>View</Button>
               </CardActions>
             </Card>
           ))}
+           {isDetailCardShow ? <ViewNoteDetailsCard title={data.title} createdDate={data.createdDate} details={data.details} /> : null}
         </div>
+       
       );
     }

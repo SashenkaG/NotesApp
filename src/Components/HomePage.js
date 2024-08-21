@@ -3,33 +3,32 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Header from './Header';
-import Cards from './Cards'
-import BasicCard from './Cards';
+import NoteCard from './Cards'
+
+import Typography from '@mui/material/Typography';
 
 
+export default function HomePage () {
+  const [selectedCard, setSelectedCard] = useState(null);
 
-
-export default function SimplePaper() {
-    const [details, setDetails] = useState('');
-
-    const handleButtonClick = (details) => {
-        setDetails(details);
-      };
-
+  const ViewClick = (card) => {
+    setSelectedCard(card);
+  };
+   
     return (
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row', // Arrange items in a row
-          alignItems: 'flex-start', // Align items at the start of the cross-axis
+          flexDirection: 'row', 
+          alignItems: 'flex-start', 
         }}
       >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            flex: 1, // Allow this Box to take up remaining space
-            gap: 2,  // Optional: Add spacing between items
+            flex: 1, 
+            gap: 2,  
           }}
         >
           <Header />  {/* Header component */}
@@ -40,7 +39,7 @@ export default function SimplePaper() {
               justifyContent: 'flex-start', 
             }}
           >
-            <BasicCard title="" content="" onClick={handleButtonClick}/>  {/* Cards component */}
+            <NoteCard/>
           </Box>
         </Box>
   
@@ -55,9 +54,17 @@ export default function SimplePaper() {
             },
           }}
         >
-          <Paper variant="outlined" />
-          
-        </Box>
+          {/* <Paper variant="outlined" sx={{ p: 2 }}>
+          {selectedCard ? (
+            <>
+              <Typography variant="h6">{selectedCard.title}</Typography>
+              <Typography variant="body1">{selectedCard.details}</Typography>
+            </>
+          ) : (
+            <Typography variant="body1">Select a card to view details</Typography>
+          )}
+        </Paper> */}
       </Box>
-    );
-  }
+    </Box>
+  );
+}
