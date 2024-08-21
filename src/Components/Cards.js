@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const bull = (
   <Box
     component="span"
     sx={{
@@ -16,36 +15,52 @@ const bull = (
         alignItems: 'flex-start', 
         '& > :not(style)': {
           m: 1, 
-          width: 200, 
+          width: 100, 
           height: 300, }}
         }
   >
     •
   </Box>
-);
 
-export default function BasicCard() {
-  return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
-  );
-}
+
+const cardData = [
+    {
+      title: 'Current Note',
+      createdDate : new Date(),
+      details: 'Today I ate a sandwitch',
+    },
+    {
+      title: 'Another Note',
+      createdDate : new Date(),
+      details: 'able to withstand or recover quickly from difficult conditions. "a resilient person"',
+    },
+    {
+      title: 'Another Note',
+      createdDate : new Date(),
+      details: 'diligent and hardworking. "an industrious student"',
+    },
+  ];
+export default function BasicCard({ title, createdDate, details, handleButtonClick }) {
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {cardData.map((card, index) => (
+            <Card key={index} sx={{ minWidth: 350 }}>
+              <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  {card.title}
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {cardData.createdDate}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {cardData.details}
+                </Typography>
+              </CardContent>
+              <CardActions>
+              <Button size="small" onClick={handleButtonClick}>View</Button>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
+      );
+    }
