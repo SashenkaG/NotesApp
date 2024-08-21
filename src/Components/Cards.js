@@ -51,7 +51,6 @@ export default function NoteCard() {
     setData(card);
     setIsDetailCardShow(true);
   };
-// console.log(data)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {cardData.map((card, index) => (
@@ -72,8 +71,11 @@ export default function NoteCard() {
               </CardActions>
             </Card>
           ))}
-           {isDetailCardShow ? <ViewNoteDetailsCard title={data.title} createdDate={data.createdDate} details={data.details} /> : null}
-        </div>
+           {isDetailCardShow && data && (
+        <ViewNoteDetailsCard
+          title={data.title} createdDate={data.createdDate} details={data.details}/>
+      )}
+    </div>
        
       );
     }
