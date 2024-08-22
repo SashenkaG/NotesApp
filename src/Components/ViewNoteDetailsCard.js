@@ -16,7 +16,7 @@ const ViewNoteDetailsCard = ({ title, createdDate, details, handleClose }) => {
         width: '1000px',  
         padding: '16px',  
         margin: '5% 5% 5% 5%',
-        border: '3px solid',  
+        border: '5px solid',  
         borderColor : '#66b3ff',  
         backgroundColor: '#fff'
       }}

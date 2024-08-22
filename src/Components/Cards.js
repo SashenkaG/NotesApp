@@ -99,7 +99,7 @@ export default function NoteCard() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Header handleAddCard={handleAddCard} />
       {newCardData.map((card) => (
-        <Card key={card.id} sx={{ minWidth: 350, border: '3px solid', borderColor: '#66b3ff' }}>
+        <Card key={card.id} sx={{ minWidth: 350, border: '4px solid', borderColor: '#66b3ff' }}>
           <CardContent>
             <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
               {card.title}
