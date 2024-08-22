@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Header from '../Components/Header';
 import NoteCard from '../Components/Cards'
 
 
@@ -12,7 +11,7 @@ export default function HomePage () {
           display: 'flex',
           flexDirection: 'row', 
           alignItems: 'flex-start',
-          backgroundImage: 'url("https://as1.ftcdn.net/v2/jpg/07/56/34/40/1000_F_756344053_cfhoRDh5aeHfPNcDcC44zE7zWkhXDH9q.jpg")',
+          backgroundImage: 'url("https://media.istockphoto.com/id/594484448/vector/books-sketch-seamless.jpg?s=2048x2048&w=is&k=20&c=KjZ_Kr3eH0ljUPqhFnRKtlY1fTOE2zFP-aTw3VUTB0U=")',
           backgroundSize:'cover',
           minHeight: '100vh',
           backgroundAttachment: 'fixed'
@@ -27,7 +26,6 @@ export default function HomePage () {
             gap: 2,  
           }}
         >
-          <Header />  {/* Header component */}
           <Box
             sx={{
               display: 'flex',
