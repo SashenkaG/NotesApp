@@ -8,23 +8,24 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Header from './Header'; 
+import DeleteIcon from '@mui/icons-material/Delete';
+import Header from './Header';
 
 const initialCardData = [
   {
-    id: 1, 
+    id: 1,
     title: 'Current Note',
     createdDate: 'Date',
     details: 'Some notes are written here',
   },
   {
-    id: 2, 
+    id: 2,
     title: 'Another Note',
     createdDate: 'Date',
     details: 'Different notes are written here',
   },
   {
-    id: 3, 
+    id: 3,
     title: 'Another Note',
     createdDate: 'Date',
     details: 'More notes are written here',
@@ -40,7 +41,7 @@ export default function NoteCard() {
 
   const handleAddCard = () => {
     const newCard = {
-      id: Date.now(), 
+      id: Date.now(),
       title: 'Title',
       createdDate: 'Date',
       details: 'Type your Notes here',
@@ -56,7 +57,7 @@ export default function NoteCard() {
   };
 
   const handleEditClick = (card) => {
-    setEditCard({ ...card }); 
+    setEditCard({ ...card });
     setData(card);
     setIsEditMode(true);
     setIsDetailCardShow(true);
@@ -86,9 +87,17 @@ export default function NoteCard() {
     setEditCard(null);
   };
 
+  const handleDeleteClick = (cardId) => {
+    const updatedData = newCardData.filter((card) => card.id !== cardId);
+    setNewCardData(updatedData);
+    setIsDetailCardShow(false);
+    setIsEditMode(false);
+    setEditCard(null);
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Header handleAddCard={handleAddCard} /> 
+      <Header handleAddCard={handleAddCard} />
       {newCardData.map((card) => (
         <Card key={card.id} sx={{ minWidth: 350, border: '3px solid', borderColor: '#66b3ff' }}>
           <CardContent>
@@ -105,17 +114,41 @@ export default function NoteCard() {
           <CardActions>
             <Button size="small" onClick={() => handleCardClick(card)}>View</Button>
             <Button size="small" onClick={() => handleEditClick(card)}>Edit</Button>
+            <IconButton size="small" onClick={() => handleDeleteClick(card.id)}>
+              <DeleteIcon color="error" />
+            </IconButton>
           </CardActions>
         </Card>
       ))}
 
       {isDetailCardShow && data && (
-        <Paper variant="outlined"sx={{position: 'absolute',right: 0, top: '30px',height: '530px',width: '1000px', padding: '16px',margin: '5% 5% 5% 5%',
-         border: '3px solid',borderColor: '#66b3ff',backgroundColor: '#fff',}}>
+        <Paper
+          variant="outlined"
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: '30px',
+            height: '530px',
+            width: '1000px',
+            padding: '16px',
+            margin: '5% 5% 5% 5%',
+            border: '3px solid',
+            borderColor: '#66b3ff',
+            backgroundColor: '#fff',
+          }}
+        >
           <div>
             <IconButton onClick={handleClose}>
               <CloseIcon
-                sx={{fontSize: 20,backgroundColor: '#ff3333',color: 'white',padding: '0.2px',position: 'absolute',display: 'block',}}/>
+                sx={{
+                  fontSize: 20,
+                  backgroundColor: '#ff3333',
+                  color: 'white',
+                  padding: '0.2px',
+                  position: 'absolute',
+                  display: 'block',
+                }}
+              />
             </IconButton>
           </div>
 
@@ -151,13 +184,13 @@ export default function NoteCard() {
             </div>
           ) : (
             <div>
-              <Typography variant="h1" component="h5" sx={{ fontSize: 30, marginTop:'20px',marginLeft:'30px' }}>
+              <Typography variant="h1" component="h5" sx={{ fontSize: 30, marginTop: '20px', marginLeft: '30px' }}>
                 {data.title}
               </Typography>
-              <Typography variant="body1" sx ={{marginLeft:'30px'}}>
+              <Typography variant="body1" sx={{ marginLeft: '30px' }}>
                 <strong>Date Created:</strong> {data.createdDate}
               </Typography>
-              <Typography variant="body1" sx ={{marginLeft:'30px'}}>
+              <Typography variant="body1" sx={{ marginLeft: '30px' }}>
                 <strong>Details:</strong> {data.details}
               </Typography>
             </div>
