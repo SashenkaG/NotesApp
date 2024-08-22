@@ -4,13 +4,13 @@ import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 
-export default function Header() {
+export default function Header({handleAddCard}) {
     return (
       <Box
         sx={{
           width: '100%',
-          backgroundColor: '#b300b3',
-          color :'white',
+          backgroundColor: '#66b3ff',
+          color :'black',
           padding: 1,
           marginBottom: 2,
           textAlign: 'center',
@@ -21,7 +21,7 @@ export default function Header() {
         }}
       >
         <Typography variant="h3">Notes</Typography>
-        <IconButton>
+        <IconButton onClick={handleAddCard}>
         <AddIcon sx={{ fontSize: 40, backgroundColor: '#1a66ff', color: 'White', borderRadius:'20px' }} />
       </IconButton> 
       </Box>

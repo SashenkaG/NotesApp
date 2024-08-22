@@ -1,40 +1,50 @@
 import React from 'react';
+import {useState} from 'react';
 import Paper from '@mui/material/Paper';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 const ViewNoteDetailsCard = ({ title, createdDate, details }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  const handleClose = () => {
+    setIsVisible(false); 
+  };
+
   return (
     <div>
+      {isVisible && (
     <Paper 
       variant="outlined" 
       sx={{ 
         position: 'absolute',
         right: 0,
         top: '30px', 
-        height: '600px',
+        height: '530px',
         width: '1000px',  
         padding: '16px',  
         margin: '5% 5% 5% 5%',
         border: '3px solid',  
-        borderColor : '#ce93d8',  
+        borderColor : '#66b3ff',  
         backgroundColor: '#fff'
       }}
     >
       <div>
-      <IconButton>
-        <CloseIcon  sx={{ fontSize: 20, backgroundColor: 'red', color: 'white', padding: '0.5px', position: 'absolute', display:'block'}} />
+      <IconButton onClick={handleClose}>
+        <CloseIcon  sx={{ fontSize: 20, backgroundColor: '#ff3333', color: 'white', padding: '0.2px', position: 'absolute', display:'block'}} />
       </IconButton> 
       </div>
       <div>
-        <h2>{title}</h2>
-        <p><strong>Date Created:</strong> {createdDate}</p>
-        <p><strong>Details:</strong> {details}</p>
-      </div>
-      </Paper>
-      <Button variant="contained" sx={{position: 'absolute',top:'680px', right: '600px',}}>
-        Save</Button>
+      <Typography variant="h1" component="h5" sx={{ fontSize: 30, marginTop:'20px',marginLeft:'30px' }}>{title}</Typography>
+      <Typography variant="body1" sx ={{marginLeft:'30px'}}><strong>Date Created:</strong> {createdDate}</Typography>
+      <Typography variant="body1"sx ={{marginLeft:'30px'}}><strong>Details:</strong> {details}</Typography>
+    </div>
+    <Button variant="contained" sx={{margin:'40% 50% 50%', Bottom:'50px'}}>Save</Button>
+    </Paper>
+    )}
+     
       </div>
   );
 };

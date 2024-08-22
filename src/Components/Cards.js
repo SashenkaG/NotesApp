@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ViewNoteDetailsCard from './ViewNoteDetailsCard';
+import Header from './Header'
 
   <Box
     component="span"
@@ -43,6 +44,16 @@ const cardData = [
 export default function NoteCard() {
   const [data, setData] = React.useState()
   const [isDetailCardShow, setIsDetailCardShow] = React.useState(false)
+  const [newCardData, setNewCardData] = React.useState(cardData);
+
+  const handleAddCard = () => {
+    const newCard = {
+      title: 'New Note',
+      createdDate: new Date().toLocaleDateString(),
+      details: 'This is a new note',
+    };
+    setNewCardData([...newCardData, newCard]);
+  };
 
   const handleCardClick = (card) => {
     console.log("Card Details:", card);
@@ -52,7 +63,7 @@ export default function NoteCard() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px',  }}>
           {cardData.map((card, index) => (
-            <Card key={index} sx={{ minWidth: 350 ,border: '3px solid', borderColor: '#ce93d8'}}>
+            <Card key={index} sx={{ minWidth: 350 ,border: '3px solid', borderColor: '#66b3ff'}}>
               <CardContent>
                 <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
                   {card.title}
@@ -74,6 +85,5 @@ export default function NoteCard() {
           title={data.title} createdDate={data.createdDate} details={data.details}/>
       )}
     </div>
-       
       );
     }
