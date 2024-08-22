@@ -9,8 +9,9 @@ export default function Header() {
       <Box
         sx={{
           width: '100%',
-          backgroundColor: '#f5f5f5',
-          padding: 2,
+          backgroundColor: '#b300b3',
+          color :'white',
+          padding: 1,
           marginBottom: 2,
           textAlign: 'center',
           display: 'flex',
@@ -19,9 +20,9 @@ export default function Header() {
           gap: 12, 
         }}
       >
-        <Typography variant="h4">Notes</Typography>
+        <Typography variant="h3">Notes</Typography>
         <IconButton>
-        <AddIcon sx={{ fontSize: 40 }} />
+        <AddIcon sx={{ fontSize: 40, backgroundColor: '#1a66ff', color: 'White', borderRadius:'20px' }} />
       </IconButton> 
       </Box>
     );

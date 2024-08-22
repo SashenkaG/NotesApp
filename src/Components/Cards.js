@@ -50,9 +50,9 @@ export default function NoteCard() {
     setIsDetailCardShow(true);
   };
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px',  }}>
           {cardData.map((card, index) => (
-            <Card key={index} sx={{ minWidth: 350 ,border: '1px solid rgba(0, 0, 0, 0.2)'}}>
+            <Card key={index} sx={{ minWidth: 350 ,border: '3px solid', borderColor: '#ce93d8'}}>
               <CardContent>
                 <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
                   {card.title}
