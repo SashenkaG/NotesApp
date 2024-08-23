@@ -9,11 +9,11 @@ const ViewNoteDetailsCard = ({ title, createdDate, details, handleClose }) => {
     <Paper 
       variant="outlined" 
       sx={{ 
-        position: 'absolute',
+        position: 'relative',
         right: 0,
         top: '30px', 
         height: '530px',
-        width: '1000px',  
+        width: '100px',  
         padding: '16px',  
         margin: '5% 5% 5% 5%',
         border: '5px solid',  
@@ -22,7 +22,7 @@ const ViewNoteDetailsCard = ({ title, createdDate, details, handleClose }) => {
       }}
     >
       <div>
-        <IconButton onClick={handleClose}>
+        <IconButton onClick={handleClose}> // Close button
           <CloseIcon  
             sx={{ 
               fontSize: 20, 
