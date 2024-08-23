@@ -10,9 +10,9 @@ export default function Header({handleAddCard}) {
       <Box
         sx={{
           width: '95%',
-          color :'black',
+          color :'white',
           padding: 1,
-          backgroundColor:'#b85cd6',
+          backgroundColor:'#00b3b3',
           borderRadius:'20px',
           border: '3px solid',
           borderColor:'black',
@@ -24,7 +24,7 @@ export default function Header({handleAddCard}) {
           gap: 11, 
         }}
       >
-        <Typography variant="h2" sx={{backgroundColor:'#b85cd6', padding: '4px', borderRadius:'20px', border:'2px', borderColor:'black'}}>Notes</Typography>
+        <Typography variant="h2" sx={{backgroundColor:'#00b3b3', padding: '4px', borderRadius:'20px', border:'2px', borderColor:'black'}}>Notes</Typography>
         <IconButton onClick={handleAddCard}>
         <AddIcon sx={{ fontSize: 40, backgroundColor: '#1a66ff', color: 'White', borderRadius:'20px' }} />
       </IconButton> 
