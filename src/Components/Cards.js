@@ -203,12 +203,12 @@ const deleteNote = async () => {
           variant="outlined"
           sx={{
             position: "absolute",
-            right: 0,
+            right: 7,
             top: "30px",
             height: "530px",
             width: "1000px",
             padding: "16px",
-            margin: "5% 5% 5% 5%",
+            margin: "5px 5px 5px 5px",
             border: "3px solid",
             borderColor: "#66b3ff",
             backgroundColor: "#fff",
