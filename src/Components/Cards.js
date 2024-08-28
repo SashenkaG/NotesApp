@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -15,6 +16,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+axios.defaults.withCredentials = true;
+ 
 
 export default function NoteCard() {
   const [data, setData] = useState(null);
@@ -24,13 +27,23 @@ export default function NoteCard() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [open, setOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
+  const baseURL = "http://localhost:7000/api";
+
+  useEffect(() => {  // Fetch notes when the component mounts
+    axios.get(`${baseURL}/get-notes`)
+      .then((response) => {
+        setNewCardData(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the notes!", error);
+      });
+  }, []);
 
   const handleAddCard = () => {
     const newCard = {
-      id: Date.now(),
       title: "",
-      createdDate: new Date().toLocaleDateString(),
       details: "",
+      createdDate: new Date().toLocaleDateString(),
     };
     setNewCardData([...newCardData, newCard]);
     handleEditClick(newCard); // Open the new card in edit mode
@@ -49,23 +62,52 @@ export default function NoteCard() {
     setIsDetailCardShow(true);
   };
 
-  const handleSaveClick = () => {
-    if (editCard) {
-      const updatedCard = {
-        ...editCard,
-        createdDate: new Date().toLocaleDateString(),
-      };
+  const handleSaveClick = async () => {
+    console.log("editCard before save:", editCard);
+    try {
+        if (editCard && editCard.title && editCard.details) { 
+            if (editCard._id) {
+                // Update existing note
+                const updatedCard = {
+                    title: editCard.title,
+                    details: editCard.details,
+                    createdDate: editCard.createdDate,
+                };
+                const response = await axios.put(`${baseURL}/update-notes/${editCard._id}`, updatedCard);
+                console.log("Note updated:", response.data);
 
-      const updatedData = newCardData.map((card) =>
-        card.id === editCard.id ? updatedCard : card
-      );
-      setNewCardData(updatedData);
-      setData(updatedCard);
-      setEditCard(null);
-      setIsEditMode(false);
-      setIsDetailCardShow(false); // Close the detail card after saving
+                // Update the frontend state with the updated note
+                const updatedData = newCardData.map((card) => 
+                    card._id === editCard._id ? { ...card, ...updatedCard } : card
+                );
+                setNewCardData(updatedData);
+            } else {
+                // Create a new note if there's no _id
+                const newCard = {
+                    title: editCard.title,
+                    details: editCard.details,
+                    createdDate: new Date().toLocaleDateString(),
+                };
+                const response = await axios.post(`${baseURL}/create-notes`, newCard);
+                console.log("Note created:", response.data);
+
+                if (response.data && response.data._id) {
+                    console.log("Adding new card:", response.data);
+                    setNewCardData([...newCardData, response.data]);
+                } else {
+                    console.error("Invalid response data for created note:", response.data);
+                }
+            }
+        } else {
+            console.error("No existing note selected for update or no valid data to save.");
+        }
+        // Reset the editCard state after saving
+        setEditCard(null);
+        setIsEditMode(false);
+    } catch (error) {
+        console.error("There was an error saving the note!", error);
     }
-  };
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,19 +123,33 @@ export default function NoteCard() {
   const handleDeleteClick = (cardId) => {
     setCardToDelete(cardId); // Store the card ID to delete
     setOpen(true); // Open the dialog
-  };
+    console.log("Card to delete:", cardId);
+};
 
-  const deleteNote = () => {
-    if (cardToDelete !== null) {
-      const updatedData = newCardData.filter((card) => card.id !== cardToDelete);
-      setNewCardData(updatedData);
-      setIsDetailCardShow(false);
-      setIsEditMode(false);
-      setEditCard(null);
-      setOpen(false); // Close the dialog after deletion
-      setCardToDelete(null); // Clear the stored cardId
-    }
-  };
+const deleteNote = async () => {
+  console.log("Current cardToDelete value in deleteNote:", cardToDelete);
+  if (cardToDelete) {
+      try {
+          const response = await axios.delete(`${baseURL}/delete-notes/${cardToDelete}`);
+          console.log("Delete response:", response);
+
+          // Update the frontend state to reflect the deletion
+          const updatedData = newCardData.filter(
+              (card) => card._id !== cardToDelete
+          );
+          setNewCardData(updatedData);
+          setIsDetailCardShow(false);
+          setIsEditMode(false);
+          setEditCard(null);
+          setOpen(false);
+          setCardToDelete(null); // Clear the stored cardId
+      } catch (error) {
+          console.error("There was an error deleting the note!", error);
+      }
+  } else {
+      console.error("No card ID found for deletion");
+  }
+};
 
   const handleDialogClose = () => {
     setOpen(false); // Close the dialog without deleting
@@ -111,10 +167,11 @@ export default function NoteCard() {
     >
       <Header handleAddCard={handleAddCard} />
       {newCardData.map((card) => (
+        card.title && card.details ? (
         <Card
-          key={card.id}
-          sx={{ minWidth: 350, border: "4px solid", borderColor: "#66b3ff" }}
-        >
+        key={card._id}
+        sx={{ minWidth: 350, border: "4px solid", borderColor: "#66b3ff" }}
+      >
           <CardContent>
             <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
               {card.title}
@@ -133,14 +190,12 @@ export default function NoteCard() {
             <Button size="small" onClick={() => handleEditClick(card)}>
               Edit
             </Button>
-            <IconButton
-              size="small"
-              onClick={() => handleDeleteClick(card.id)}
-            >
+            <IconButton size="small" onClick={() => handleDeleteClick(card._id)}>
               <DeleteIcon color="error" />
             </IconButton>
           </CardActions>
         </Card>
+      ) : null
       ))}
 
       {isDetailCardShow && data && (
@@ -196,7 +251,7 @@ export default function NoteCard() {
               <TextField
                 name="details"
                 label="Details"
-                 placeholder="Type your notes here"
+                placeholder="Type your notes here"
                 value={editCard.details}
                 onChange={handleChange}
                 fullWidth
@@ -247,11 +302,14 @@ export default function NoteCard() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={deleteNote} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
+    <Button onClick={handleDialogClose}>Cancel</Button>
+    <Button onClick={() => {
+        console.log("Deleting note with ID:", cardToDelete); 
+        deleteNote();}} autoFocus>
+        Delete
+    </Button>
+</DialogActions>
+
       </Dialog>
     </div>
   );
