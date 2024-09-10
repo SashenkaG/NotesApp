@@ -27,7 +27,8 @@ export default function NoteCard() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [open, setOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
-  const baseURL = "http://localhost:7000/api";
+  const [test, setTest] = useState(true);
+  const baseURL = "http://localhost:7001/api";
 
   useEffect(() => {  // Fetch notes when the component mounts
     axios.get(`${baseURL}/get-notes`)
@@ -104,8 +105,10 @@ export default function NoteCard() {
         // Reset the editCard state after saving
         setEditCard(null);
         setIsEditMode(false);
+        setTest(true);
     } catch (error) {
         console.error("There was an error saving the note!", error);
+        setTest(false);
     }
 };
 
@@ -152,8 +155,9 @@ const deleteNote = async () => {
 };
 
   const handleDialogClose = () => {
-    setOpen(false); // Close the dialog without deleting
-    setCardToDelete(null); // Clear the stored cardId
+    setOpen(false);
+
+    setCardToDelete(null); 
   };
 
   return (
