@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Header from "./Header";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -102,13 +103,10 @@ export default function NoteCard() {
         } else {
             console.error("No existing note selected for update or no valid data to save.");
         }
-        // Reset the editCard state after saving
         setEditCard(null);
         setIsEditMode(false);
-        setTest(true);
     } catch (error) {
         console.error("There was an error saving the note!", error);
-        setTest(false);
     }
 };
 
@@ -136,7 +134,6 @@ const deleteNote = async () => {
           const response = await axios.delete(`${baseURL}/delete-notes/${cardToDelete}`);
           console.log("Delete response:", response);
 
-          // Update the frontend state to reflect the deletion
           const updatedData = newCardData.filter(
               (card) => card._id !== cardToDelete
           );
@@ -155,9 +152,8 @@ const deleteNote = async () => {
 };
 
   const handleDialogClose = () => {
-    setOpen(false);
-
-    setCardToDelete(null); 
+    setOpen(false); // Close the dialog without deleting
+    setCardToDelete(null); // Clear stored cardId
   };
 
   return (
@@ -172,12 +168,22 @@ const deleteNote = async () => {
       <Header handleAddCard={handleAddCard} />
       {newCardData.map((card) => (
         card.title && card.details ? (
-        <Card
-        key={card._id}
-        sx={{ minWidth: 350, border: "4px solid", borderColor: "#66b3ff" }}
-      >
+          <Card
+          key={card._id}
+          sx={{
+            minWidth: 350,
+            border: "4px solid",
+            borderColor: "#66b3ff",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
+            "&:hover": {
+              boxShadow: "0px 6px 8px rgba(0, 0, 0, 0.2)", 
+            },
+          }}
+        >        
           <CardContent>
-            <Typography sx={{ fontSize: 20 }} color="bold" gutterBottom>
+            <Typography
+              sx={{ fontSize: 22, fontWeight: "bold" }} 
+              color="text.primary" gutterBottom>
               {card.title}
             </Typography>
             <Typography variant="subtitle1" component="div">
@@ -188,14 +194,14 @@ const deleteNote = async () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={() => handleCardClick(card)}>
+          <Button size="small" variant="contained" color="primary" onClick={() => handleCardClick(card)}>
               View
             </Button>
-            <Button size="small" onClick={() => handleEditClick(card)}>
+            <Button size="small" variant="outlined" color="secondary" onClick={() => handleEditClick(card)}>
               Edit
             </Button>
-            <IconButton size="small" onClick={() => handleDeleteClick(card._id)}>
-              <DeleteIcon color="error" />
+            <IconButton size="small" color="error" onClick={() => handleDeleteClick(card._id)}>
+              <DeleteIcon />
             </IconButton>
           </CardActions>
         </Card>
@@ -204,20 +210,22 @@ const deleteNote = async () => {
 
       {isDetailCardShow && data && (
         <Paper
-          variant="outlined"
-          sx={{
-            position: "absolute",
-            right: 7,
-            top: "30px",
-            height: "530px",
-            width: "1000px",
-            padding: "16px",
-            margin: "5px 5px 5px 5px",
-            border: "3px solid",
-            borderColor: "#66b3ff",
-            backgroundColor: "#fff",
-          }}
-        >
+        variant="outlined"
+        sx={{
+          position: "absolute",
+          right: "10px",
+          top: "30px",
+          height: "550px",
+          width: "1000px",
+          padding: "24px", 
+          margin: "5px",
+          border: "4px solid",
+          borderColor: "#66b3ff",
+          backgroundColor: "#f9f9f9",
+          borderRadius: "12px", 
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", 
+        }}
+      >
           <div>
             <IconButton
               onClick={handleClose}
@@ -240,56 +248,83 @@ const deleteNote = async () => {
           </div>
 
           {isEditMode ? (
-            <div>
-              <TextField
-                name="title"
-                label="Title"
-                placeholder="Title"
-                value={editCard.title}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                sx={{ marginTop: "50px" }}
-              />
+        <div>
+          <TextField
+            name="title"
+            label="Title"
+            placeholder="Title"
+            value={editCard.title}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            sx={{ marginTop: "50px" }}
+          />
 
-              <TextField
-                name="details"
-                label="Details"
-                placeholder="Type your notes here"
-                value={editCard.details}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                multiline
-                rows={4}
-                sx={{ marginTop: "16px" }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleSaveClick}
-                sx={{ marginTop: "20px" }}
-              >
-                Save
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <Typography
-                variant="h1"
-                component="h5"
-                sx={{ fontSize: 30, marginTop: "20px", marginLeft: "30px" }}
-              >
-                {data.title}
-              </Typography>
-              <Typography variant="body1" sx={{ marginLeft: "30px" }}>
-                <strong>Date Created:</strong> {data.createdDate}
-              </Typography>
-              <Typography variant="body1" sx={{ marginLeft: "30px" }}>
-                <strong>Details:</strong> {data.details}
-              </Typography>
-            </div>
-          )}
-        </Paper>
+          <TextField
+            name="details"
+            label="Details"
+            placeholder="Type your notes here"
+            value={editCard.details}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            multiline
+            rows={4}
+            sx={{ marginTop: "16px" }}
+          />
+          <Button
+            variant="contained"
+            onClick={handleSaveClick}
+            sx={{ marginTop: "20px" }}
+          >
+            Save
+          </Button>
+        </div>
+      ) : (
+        <div
+  style={{
+    padding: "20px 40px", 
+  }}
+>
+  <Typography
+    variant="h1"
+    component="h5"
+    sx={{
+      fontSize: 32, 
+      marginBottom: "16px", 
+      fontWeight: "bold", 
+      color: "#333", 
+    }}
+  >
+    {data.title}
+  </Typography>
+
+  <Typography
+    variant="body1"
+    sx={{
+      marginBottom: "12px", 
+      color: "#555", 
+      display: "flex",
+      alignItems: "center",
+    }}
+  >
+    <CalendarTodayIcon sx={{ marginRight: "8px", fontSize: "18px", color: "#777" }} /> 
+    <strong>Date Created :&nbsp; </strong> {data.createdDate}
+  </Typography>
+
+  <Typography
+    variant="body1"
+    sx={{
+      color: "#333", 
+      lineHeight: "1.6", 
+    }}
+  >
+    <strong>Details:</strong> {data.details}
+  </Typography>
+</div>
+
+      )}
+    </Paper>
       )}
 
       {/* Confirmation Dialog */}
